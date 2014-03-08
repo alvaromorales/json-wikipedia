@@ -345,6 +345,7 @@ public class ArticleParser {
 
 	private void setTemplates(Article article, ParsedPage page) {
 		List<Template> templates = new ArrayList<Template>(10);
+		List<Template> infoboxes = new ArrayList<Template>(10);
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Template t : page
 				.getTemplates()) {
@@ -352,11 +353,12 @@ public class ArticleParser {
 			parseTemplatesSchema(article, templateParameters);
 
 			if (t.getName().toLowerCase().startsWith("infobox")) {
-				article.setInfobox(new Template(t.getName(), templateParameters));
+				infoboxes.add(new Template(t.getName(), templateParameters));
 			} else {
 				templates.add(new Template(t.getName(), templateParameters));
 			}
 		}
+		article.setInfoboxes(infoboxes);
 		article.setTemplates(templates);
 
 	}

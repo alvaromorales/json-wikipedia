@@ -82,7 +82,8 @@ public class ArticleTest {
 		articleParser.parse(articleWithInfobox, text);
 		
 		assertTrue(articleWithInfobox.hasInfobox());
-		Template infobox = articleWithInfobox.getInfobox();
+		List<Template> infoboxes = articleWithInfobox.getInfoboxes();
+		Template infobox = infoboxes.get(0);
 		assertEquals(12,infobox.getSchema().size());
 		assertEquals("Infobox_fiume", infobox.getName());
 		assertEquals("Adige", infobox.get("nome"));
