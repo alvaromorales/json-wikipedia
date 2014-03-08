@@ -83,11 +83,9 @@ public class ArticleParser {
 	}
 
 	public void parse(Article article, String mediawiki) {
-		ParsedPage page = parser.parse(mediawiki);
+	    ParsedPage page = parser.parse(mediawiki);
 		setRedirect(article, mediawiki);
-
 		parse(article, page);
-
 	}
 
 	private void parse(Article article, ParsedPage page) {
@@ -202,7 +200,7 @@ public class ArticleParser {
 	// }
 	// }
 	// }
-
+    
 	/**
 	 * @param article
 	 * @param page
@@ -417,13 +415,42 @@ public class ArticleParser {
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
-			// text = removeTemplates(text);
+			text = removeTemplates(text);
 			text = text.replace("\n", " ").trim();
 			if (!text.isEmpty())
 				paragraphs.add(text);
 		}
 		article.setParagraphs(paragraphs);
 	}
+	
+    /**
+     * Removes the TEMPLATE text from the row text of the article.
+     *
+     * @param text
+     * @return the 'cleaned' text
+     */
+    private String removeTemplates(String text) {
+        // dirty code, i'm sure there is a better way to exclude
+        // template code from getText() (setting ignores..)
+        while (text.contains("TEMPLATE[")) {
+            int pos = text.indexOf("TEMPLATE[");
+            int start = pos + "TEMPLATE".length() + 1;
+            int end = start;
+            int c = 1;
+            while (c > 0) {
+                if (end >= text.length())
+                    break;
+                if (text.charAt(end) == '[')
+                    c++;
+                if (text.charAt(end) == ']')
+                    c--;
+                end++;
+            }
+            text = text.substring(0, pos) + text.substring(end);
+        }
+        return text;
+
+    }
 
 	private void setLists(Article article, ParsedPage page) {
 		List<List<String>> lists = new LinkedList<List<String>>();
