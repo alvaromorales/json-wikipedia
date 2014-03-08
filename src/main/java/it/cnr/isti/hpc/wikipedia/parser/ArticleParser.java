@@ -341,9 +341,20 @@ public class ArticleParser {
 		article.setExternalLinks(elinks);
 	}
 
+	private String getClassName(String templateName) {
+	    String className = templateName.toLowerCase().trim();
+	    className = className.replaceAll("\n+", "")
+	                         .replaceAll("_+", "-")
+	                         .replaceAll("[ ]+", "-")
+	                         .replaceAll("^infobox-", "wikipedia-");
+	    
+	    return className;
+	}
+	
 	private void setTemplates(Article article, ParsedPage page) {
 		List<Template> templates = new ArrayList<Template>(10);
 		List<Template> infoboxes = new ArrayList<Template>(10);
+		List<String> classes = new ArrayList<String>(10);
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Template t : page
 				.getTemplates()) {
@@ -352,11 +363,13 @@ public class ArticleParser {
 
 			if (t.getName().toLowerCase().startsWith("infobox")) {
 				infoboxes.add(new Template(t.getName(), templateParameters));
+				classes.add(getClassName(t.getName()));
 			} else {
 				templates.add(new Template(t.getName(), templateParameters));
 			}
 		}
 		article.setInfoboxes(infoboxes);
+		article.setClasses(classes);
 		article.setTemplates(templates);
 
 	}

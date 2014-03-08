@@ -66,7 +66,9 @@ public class Article {
 	private List<String> templatesSchema;
 	private List<String> highlights;
 	private transient String summary;
-	private List<Template> infoboxes;
+	private List<String> classes;
+
+    private List<Template> infoboxes;
 
 	public List<String> getTemplatesSchema() {
 		if (templatesSchema == null)
@@ -507,6 +509,14 @@ public class Article {
 		this.infoboxes = infoboxes;
 	}
 
+    public List<String> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<String> classes) {
+        this.classes = classes;
+    }
+	
 	public List<String> getSections() {
 		if (sections == null)
 			return Collections.emptyList();
