@@ -4,3 +4,8 @@ target/
 .settings/
 .DS_STORE
 javadoc
+
+# Intellij
+.idea/
+*.iml
+*.iws
