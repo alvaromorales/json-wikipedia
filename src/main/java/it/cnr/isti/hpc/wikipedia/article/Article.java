@@ -66,7 +66,9 @@ public class Article {
 	private List<String> templatesSchema;
 	private List<String> highlights;
 	private transient String summary;
-	private Template infobox;
+	private List<String> classes;
+
+    private List<Template> infoboxes;
 
 	public List<String> getTemplatesSchema() {
 		if (templatesSchema == null)
@@ -381,7 +383,7 @@ public class Article {
 		sb.append("LISTS:").append("\n");
 		for (List<String> l : getLists())
 			sb.append("\t").append(l).append("\n");
-		sb.append("INFOBOX:").append(getInfobox()).append("\n");
+		sb.append("INFOBOXES:").append(getInfoboxes()).append("\n");
 
 		sb.append("LINKS:\n");
 		for (Link l : getLinks())
@@ -493,20 +495,28 @@ public class Article {
 		this.categories = categories;
 	}
 
-	public Template getInfobox() {
-		if (infobox == null)
-			return Template.EMPTY_TEMPLATE;
-		return infobox;
+	public List<Template> getInfoboxes() {
+		if (infoboxes == null)
+		    Collections.emptyList();
+		return infoboxes;
 	}
 
 	public boolean hasInfobox() {
-		return infobox != null;
+		return infoboxes.size() != 0;
 	}
 
-	public void setInfobox(Template infobox) {
-		this.infobox = infobox;
+	public void setInfoboxes(List<Template> infoboxes) {
+		this.infoboxes = infoboxes;
 	}
 
+    public List<String> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<String> classes) {
+        this.classes = classes;
+    }
+	
 	public List<String> getSections() {
 		if (sections == null)
 			return Collections.emptyList();
